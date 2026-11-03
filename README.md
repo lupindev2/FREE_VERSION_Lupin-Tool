@@ -34,8 +34,7 @@ intro vidéo. Selon les modules présents dans cette version, le menu donne acc�
 1. Téléchargez le dépôt en ZIP et extrayez entièrement le dossier.
 2. Installez Python 3 et assurez-vous que les commandes `python` et `pip` sont
    disponibles dans un terminal.
-3. Lancez l'application et connectez-vous à votre compte ScrapHub depuis la page
-   de recherche, ou créez-en un avec votre e-mail et votre mot de passe.
+3. Configurez les identifiants ScrapHub selon la section ci-dessous.
 4. Ouvrez le dossier extrait, puis double-cliquez sur `start.bat`.
 
 Le lanceur installe les dépendances de `requirements.txt` pour votre utilisateur,
@@ -55,26 +54,21 @@ Pour afficher les options du lanceur :
 
 ## Configuration Scraphub
 
-La page de recherche permet de se connecter à un compte existant ou d'en créer
-un. Lors d'une inscription, un code est envoyé par e-mail; saisissez-le dans
-l'application pour vérifier l'adresse et terminer la connexion. Les identifiants
-sont alors enregistrés localement dans `settings/options/.env` pour les
-prochaines utilisations. Le champ `name` requis par l'API d'inscription est
-automatiquement dérivé de la partie de l'adresse e-mail avant `@`.
-
-L'URL API utilisée par défaut est `https://api.scraphub.org/api`. Une URL de
-remplacement peut être définie avec `SCRAPHUB_API_URL` dans le `.env` et doit
-utiliser HTTPS.
+Pour utiliser la recherche, placez votre e-mail et votre mot de passe ScrapHub
+dans `settings/options/.env`. Vous pouvez créer ce fichier en copiant
+`.env.example` dans le même dossier. Si les identifiants sont absents, la page
+de recherche vous indiquera de contacter `lupinducoup` sur Discord pour obtenir
+des identifiants gratuits.
 
 ### Garder les identifiants privés
 
 Le `.env` contient des identifiants en texte lisible sur votre ordinateur :
 
-- Ne le publiez pas, ne le joignez pas à un ZIP et ne l'envoyez pas sur Discord.
+- Ne publiez pas le `.env` et ne partagez pas de mot de passe dans un salon
+  public ou un ZIP.
 - Le `.env` est ignoré par Git; seul `.env.example`, qui ne contient pas vos
   valeurs, est destiné au dépôt.
-- Chaque personne doit utiliser son propre compte; l'application crée ou met à
-  jour le `.env` local après une connexion réussie.
+- Utilisez uniquement des identifiants que vous êtes autorisé à utiliser.
 - Si vous avez déjà partagé un mot de passe ou commité un vrai `.env`, changez
   immédiatement ce mot de passe auprès du service.
 
@@ -103,11 +97,12 @@ Vérifiez votre connexion Internet et les identifiants du `.env`. Si
 l'administrateur vous a donné une autre URL API, ajoutez-la avec la variable
 `SCRAPHUB_API_URL` dans ce fichier.
 
-### « Identifiants absents »
+### « Identifiants ScrapHub absents »
 
-Vérifiez que `SCRAPHUB_EMAIL` et `SCRAPHUB_PASSWORD` sont remplis dans le `.env`
-local. Ne collez pas vos identifiants dans un message public pour demander de
-l'aide.
+Renseignez `SCRAPHUB_EMAIL` et `SCRAPHUB_PASSWORD` dans
+`settings/options/.env`, ou contactez `lupinducoup` sur Discord pour obtenir
+des identifiants gratuits. Ne collez pas vos identifiants dans un message
+public pour demander de l'aide.
 
 ### L'introduction vidéo ne s'affiche pas
 
