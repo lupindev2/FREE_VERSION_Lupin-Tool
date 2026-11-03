@@ -75,7 +75,7 @@ def _request_json(opener, url, payload):
 
 class ScraphubClient:
     def __init__(self):
-        self.api_url = os.getenv("SCRAPHUB_API_URL", "https://scraphub-web-backend.fly.dev/api").rstrip("/")
+        self.api_url = os.getenv("SCRAPHUB_API_URL").rstrip("/")
         self.email = os.getenv("SCRAPHUB_EMAIL")
         self.password = os.getenv("SCRAPHUB_PASSWORD")
         self.jar = http.cookiejar.CookieJar()
@@ -567,3 +567,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Dont Use This File On Your Project, This File Contain API Logs.
