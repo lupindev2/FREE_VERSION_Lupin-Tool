@@ -34,7 +34,8 @@ intro vidéo. Selon les modules présents dans cette version, le menu donne acc�
 1. Téléchargez le dépôt en ZIP et extrayez entièrement le dossier.
 2. Installez Python 3 et assurez-vous que les commandes `python` et `pip` sont
    disponibles dans un terminal.
-3. Configurez Scraphub en suivant la section ci-dessous.
+3. Lancez l'application et connectez-vous à votre compte ScrapHub depuis la page
+   de recherche, ou créez-en un avec votre e-mail et votre mot de passe.
 4. Ouvrez le dossier extrait, puis double-cliquez sur `start.bat`.
 
 Le lanceur installe les dépendances de `requirements.txt` pour votre utilisateur,
@@ -54,32 +55,16 @@ Pour afficher les options du lanceur :
 
 ## Configuration Scraphub
 
-Le fichier modèle se trouve dans `settings/options/.env.example`. Pour le
-configurer :
+La page de recherche permet de se connecter à un compte existant ou d'en créer
+un. Lors d'une inscription, un code est envoyé par e-mail; saisissez-le dans
+l'application pour vérifier l'adresse et terminer la connexion. Les identifiants
+sont alors enregistrés localement dans `settings/options/.env` pour les
+prochaines utilisations. Le champ `name` requis par l'API d'inscription est
+automatiquement dérivé de la partie de l'adresse e-mail avant `@`.
 
-1. Dans l'explorateur de fichiers, ouvrez `settings/options`.
-2. Copiez `.env.example` dans le même dossier.
-3. Renommez la copie en `.env` (le nom final doit être exactement `.env`, sans
-   extension supplémentaire comme `.txt`).
-4. Ouvrez `.env` avec un éditeur de texte et renseignez les identifiants de
-   **votre propre compte Scraphub** :
-
-```dotenv
-SCRAPHUB_EMAIL=
-SCRAPHUB_PASSWORD=
-```
-
-- `SCRAPHUB_EMAIL` : l'adresse e-mail de votre compte Scraphub.
-- `SCRAPHUB_PASSWORD` : le mot de passe de votre compte Scraphub.
-
-Enregistrez le fichier, puis relancez l'application. La recherche lit ce fichier
-localement au démarrage. L'adresse API est définie par l'application. Si votre
-administrateur vous fournit une URL de remplacement, vous pouvez ajouter
-`SCRAPHUB_API_URL=https://...` dans le `.env`; elle doit utiliser HTTPS.
-
-L'URL intégrée est encodée en fragments dans le code pour ne pas apparaître
-immédiatement à la lecture. C'est uniquement une obfuscation visuelle : toute
-personne ayant accès au programme ou au trafic réseau peut la retrouver.
+L'URL API utilisée par défaut est `https://api.scraphub.org/api`. Une URL de
+remplacement peut être définie avec `SCRAPHUB_API_URL` dans le `.env` et doit
+utiliser HTTPS.
 
 ### Garder les identifiants privés
 
@@ -88,16 +73,10 @@ Le `.env` contient des identifiants en texte lisible sur votre ordinateur :
 - Ne le publiez pas, ne le joignez pas à un ZIP et ne l'envoyez pas sur Discord.
 - Le `.env` est ignoré par Git; seul `.env.example`, qui ne contient pas vos
   valeurs, est destiné au dépôt.
-- Chaque personne doit utiliser son propre compte et créer son propre `.env`.
+- Chaque personne doit utiliser son propre compte; l'application crée ou met à
+  jour le `.env` local après une connexion réussie.
 - Si vous avez déjà partagé un mot de passe ou commité un vrai `.env`, changez
   immédiatement ce mot de passe auprès du service.
-
-**Important pour les développeurs :** encoder ou découper `SCRAPHUB_API_URL`
-dans le code ne la rend pas secrète dans une application distribuée. L'URL
-utilisée par un client peut être retrouvée en inspectant ses fichiers ou ses
-connexions réseau. Une URL d'API n'est généralement pas un secret
-d'authentification; les mots de passe, jetons et clés privées, eux, le sont.
-L'obfuscation ne protège pas ces secrets.
 
 Si l'application doit être distribuée à d'autres utilisateurs, ne mettez jamais
 un identifiant Scraphub partagé dans le dépôt ou dans le programme. Pour protéger
