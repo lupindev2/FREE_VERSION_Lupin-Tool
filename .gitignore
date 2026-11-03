@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local application assets and credentials
+settings/options/.env
+assets/videos/
