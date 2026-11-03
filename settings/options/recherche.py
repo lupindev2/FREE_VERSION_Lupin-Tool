@@ -33,6 +33,7 @@ RED       = (200, 120, 120)
 SCRIPT_DIR = Path(__file__).resolve().parent
 ENV_PATH = SCRIPT_DIR / ".env"
 _DEFAULT_API_URL = "https://api.scraphub.org/api"
+_LEGACY_API_URL = "https://scraphub-web-backend.fly.dev/api"
 
 def load_env(path: Path):
     if not path.is_file(): return
@@ -75,6 +76,15 @@ def _request_json(opener, url, payload=None, method="POST"):
         raw = e.read().decode("utf-8", errors="replace")
         try:
             d = json.loads(raw)
+            if e.code == 403 and d.get("error_code") == 1010:
+                request_id = d.get("instance")
+                message = (
+                    "ScrapHub/Cloudflare bloque l'accès de cette application "
+                    "(Error 1010). Seul ScrapHub peut autoriser cette requête."
+                )
+                if request_id:
+                    message += f" Identifiant à transmettre au support : {request_id}"
+                raise RuntimeError(message) from e
             msg = d.get("error") or d.get("message") or raw
         except json.JSONDecodeError:
             msg = raw or str(e.reason)
@@ -111,6 +121,8 @@ def save_credentials(email, password):
 class ScraphubClient:
     def __init__(self):
         api_url = os.getenv("SCRAPHUB_API_URL") or _DEFAULT_API_URL
+        if api_url.rstrip("/") == _LEGACY_API_URL:
+            api_url = _DEFAULT_API_URL
         self.api_url = api_url.rstrip("/")
         self.email = os.getenv("SCRAPHUB_EMAIL")
         self.password = os.getenv("SCRAPHUB_PASSWORD")
