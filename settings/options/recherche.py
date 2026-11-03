@@ -75,7 +75,8 @@ def _request_json(opener, url, payload):
 
 class ScraphubClient:
     def __init__(self):
-        self.api_url = os.getenv("SCRAPHUB_API_URL").rstrip("/")
+        api_url = os.getenv("SCRAPHUB_API_URL")
+        self.api_url = api_url.rstrip("/") if api_url else ""
         self.email = os.getenv("SCRAPHUB_EMAIL")
         self.password = os.getenv("SCRAPHUB_PASSWORD")
         self.jar = http.cookiejar.CookieJar()
@@ -83,6 +84,8 @@ class ScraphubClient:
         self._logged = False
 
     def _check_env(self):
+        if not self.api_url:
+            raise RuntimeError(f"URL API absente. Configure SCRAPHUB_API_URL dans {ENV_PATH}.")
         if not self.email or not self.password:
             raise RuntimeError(f"Identifiants absents. Vérifie {ENV_PATH}")
         if not self.api_url.startswith("https://"):

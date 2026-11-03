@@ -221,4 +221,9 @@ __marimo__/
 
 # Local application assets and credentials
 settings/options/.env
-assets/videos/
+assets/videos/*.mp4
+assets/videos/*.mkv
+assets/videos/*.mov
+assets/videos/*.avi
+assets/videos/*.webm
+assets/videos/*.m4v
