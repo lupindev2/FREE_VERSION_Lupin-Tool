@@ -61,23 +61,25 @@ configurer :
 2. Copiez `.env.example` dans le même dossier.
 3. Renommez la copie en `.env` (le nom final doit être exactement `.env`, sans
    extension supplémentaire comme `.txt`).
-4. Ouvrez `.env` avec un éditeur de texte et renseignez les valeurs fournies
-   pour **votre propre accès Scraphub** :
+4. Ouvrez `.env` avec un éditeur de texte et renseignez les identifiants de
+   **votre propre compte Scraphub** :
 
 ```dotenv
-SCRAPHUB_API_URL=
 SCRAPHUB_EMAIL=
 SCRAPHUB_PASSWORD=
 ```
 
-- `SCRAPHUB_API_URL` : l'adresse API communiquée par l'administrateur du service
-  Scraphub auquel vous avez accès. Ne devinez pas cette adresse. Si vous ne la
-  connaissez pas, demandez-la à l'administrateur de votre service.
 - `SCRAPHUB_EMAIL` : l'adresse e-mail de votre compte Scraphub.
 - `SCRAPHUB_PASSWORD` : le mot de passe de votre compte Scraphub.
 
 Enregistrez le fichier, puis relancez l'application. La recherche lit ce fichier
-localement au démarrage. L'adresse API doit utiliser HTTPS.
+localement au démarrage. L'adresse API est définie par l'application. Si votre
+administrateur vous fournit une URL de remplacement, vous pouvez ajouter
+`SCRAPHUB_API_URL=https://...` dans le `.env`; elle doit utiliser HTTPS.
+
+L'URL intégrée est encodée en fragments dans le code pour ne pas apparaître
+immédiatement à la lecture. C'est uniquement une obfuscation visuelle : toute
+personne ayant accès au programme ou au trafic réseau peut la retrouver.
 
 ### Garder les identifiants privés
 
@@ -90,10 +92,10 @@ Le `.env` contient des identifiants en texte lisible sur votre ordinateur :
 - Si vous avez déjà partagé un mot de passe ou commité un vrai `.env`, changez
   immédiatement ce mot de passe auprès du service.
 
-**Important pour les développeurs :** cacher `SCRAPHUB_API_URL` dans le code ou
-la mettre dans `.env` ne la rend pas secrète dans une application distribuée.
-L'URL utilisée par un client peut être retrouvée en inspectant ses fichiers ou
-ses connexions réseau. Une URL d'API n'est généralement pas un secret
+**Important pour les développeurs :** encoder ou découper `SCRAPHUB_API_URL`
+dans le code ne la rend pas secrète dans une application distribuée. L'URL
+utilisée par un client peut être retrouvée en inspectant ses fichiers ou ses
+connexions réseau. Une URL d'API n'est généralement pas un secret
 d'authentification; les mots de passe, jetons et clés privées, eux, le sont.
 L'obfuscation ne protège pas ces secrets.
 
@@ -116,10 +118,11 @@ La musique et l'image d'ambiance se trouvent dans `assets/songs` et
 
 ## Dépannage
 
-### « URL API absente »
+### Problème de connexion Scraphub
 
-Vérifiez que le fichier s'appelle exactement `.env`, qu'il est dans
-`settings/options`, et que `SCRAPHUB_API_URL` a été renseignée.
+Vérifiez votre connexion Internet et les identifiants du `.env`. Si
+l'administrateur vous a donné une autre URL API, ajoutez-la avec la variable
+`SCRAPHUB_API_URL` dans ce fichier.
 
 ### « Identifiants absents »
 

